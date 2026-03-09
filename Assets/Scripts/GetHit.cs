@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GetHit : MonoBehaviour
 {
     [Tooltip("Determines when the player is taking damage.")]
     public bool hurt = false;
-
     private bool slipping = false;
     private PlayerMovement playerMovementScript;
     private Rigidbody rb;
@@ -60,6 +60,13 @@ public class GetHit : MonoBehaviour
     private void TakeDamage()
     {
         hurt = true;
+        playerMovementScript.playerStats.life -= 1;
+        Debug.Log("Ouch!My life is " + playerMovementScript.playerStats.life);
+        if (playerMovementScript.playerStats.life <= 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        
         playerMovementScript.playerStats.canMove = false;
         playerMovementScript.soundManager.PlayHitSound();
         StartCoroutine("Recover");

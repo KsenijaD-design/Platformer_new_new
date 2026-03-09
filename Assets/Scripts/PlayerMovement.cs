@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     [System.Serializable]
     public struct Stats
     {
-       
+        [Tooltip("How much health the player have")]
+        public float life;
         
         [Tooltip("How fast the player runs.")]
         public float speed;
@@ -90,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             
             // directional movement is wrapped around which way the camera is facing
             Vector3 movement = ((mainCamera.right * moveX) * playerStats.speed) + ((mainCamera.forward * moveY) * playerStats.speed);
-            rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
+            rb.linearVelocity = new Vector3(movement.x, rb.linearVelocity.y, movement.z);
 
             // player faces the direction they are moving towards
             if (movement.x != 0 && movement.z != 0)
