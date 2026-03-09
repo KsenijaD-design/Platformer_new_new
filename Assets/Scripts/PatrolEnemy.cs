@@ -10,8 +10,7 @@ public class PatrolEnemy : MonoBehaviour
     [System.Serializable]
     public struct Stats
     {
-        [Tooltip("How fast the enemy moves.")]
-        public float speed;
+        [Tooltip("How fast the enemy moves.")] public float speed;
 
         [Tooltip("Whether the enemy should move or not")]
         public bool move;
@@ -24,28 +23,28 @@ public class PatrolEnemy : MonoBehaviour
 
     private int currentPatrolPoint = 0;
 
-    /*----------------------------BROKEN UPDATE LOOP---------------------------------------------------------------------------------
+
 
     private void Update()
     {
         if (enemyStats.move == true)
         {
-            Vector3 moveToPoint = patrolPoints(currentPatrolPoint).position;   
-            transform.position = Vector3.MoveTowards(transform.position, moveToPoint, enemyStats.speed * Time.deltaTime);
+
+            Vector3 moveToPoint = patrolPoints[currentPatrolPoint].position;
+            transform.position =
+                Vector3.MoveTowards(transform.position, moveToPoint, enemyStats.speed * Time.deltaTime);
 
             if (Vector3.Distance(transform.position, moveToPoint) < 0.01f)
             {
-                currentPatrolPoint +;
+                currentPatrolPoint++;
 
-                if (currentPatrolPoint > patrolPoints.Length)  
+                if (currentPatrolPoint > patrolPoints.Length - 1)
                 {
                     currentPatrolPoint = 0;
                 }
             }
         }
     }
-
-       -------------------------------------------------------------------------------------------------------------------------------*/
 }
 
 
@@ -58,45 +57,6 @@ public class PatrolEnemy : MonoBehaviour
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//-----------SOLUTION SCRIPT------------------
 public class PatrolEnemy_Answer : MonoBehaviour
 {
     /// <summary>
