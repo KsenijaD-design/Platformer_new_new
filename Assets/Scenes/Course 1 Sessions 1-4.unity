@@ -16323,7 +16323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &705455918
 Transform:
   m_ObjectHideFlags: 0
@@ -16456,7 +16456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &706923303
 Transform:
   m_ObjectHideFlags: 0
@@ -51144,6 +51144,7 @@ GameObject:
   - component: {fileID: 1336565513}
   - component: {fileID: 1336565510}
   - component: {fileID: 1336565509}
+  - component: {fileID: 1336565514}
   - component: {fileID: 1336565508}
   m_Layer: 8
   m_Name: Enemy
@@ -51182,22 +51183,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStats:
-    walkSpeed: 5
-    rotateSpeed: 30
     chaseSpeed: 8
     idle: 1
     explodeDist: 3
+    walkSpeed: 6
   sight: {fileID: 809482769}
-  patrolPoints:
-  - {fileID: 1777047862}
-  - {fileID: 1606411007}
-  - {fileID: 216281172}
-  - {fileID: 823003956}
   enemyExplosionParticles: {fileID: 4912132913345027125, guid: fdab0a93f34bcb34e95520ef61abf60c, type: 3}
-  currentPatrolPoint: 0
-  slipping: 0
-  facing: 0
-  rb: {fileID: 0}
 --- !u!135 &1336565509
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -51323,6 +51314,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1336565514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336565506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba8f112ec1da1e459ac718786fecd2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::patrol
+  patrolPoints:
+  - {fileID: 1777047862}
+  - {fileID: 1606411007}
+  - {fileID: 216281172}
+  - {fileID: 823003956}
+  currentPatrolPoint: 0
 --- !u!1001 &1338182570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58995,7 +59004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1684486807
 Transform:
   m_ObjectHideFlags: 0
@@ -68056,7 +68065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1299055526086228024
 Transform:
   m_ObjectHideFlags: 0

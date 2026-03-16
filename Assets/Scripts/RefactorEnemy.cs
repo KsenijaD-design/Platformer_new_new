@@ -8,22 +8,15 @@ public class RefactorEnemy : MonoBehaviour
 
     [Tooltip("The transform that will lock onto the player once the enemy has spotted them.")]
     public Transform sight;
-
-    [Tooltip("The transform to which the enemy will pace back and forth to.")]
-    public Transform[] patrolPoints;
-
+    
     [Tooltip("Blue explosion particles")]
     public GameObject enemyExplosionParticles;
 
-    public int currentPatrolPoint = 0;
-
-    public bool slipping = false;
-   
-    public float facing;
-    
-    public Rigidbody rb;
+    private bool slipping = false;
 
     private GameObject player;
+    
+    private patrol patrolScript;
 
     /// <summary>
     /// Contains tunable parameters to tweak the enemy's movement and behavior.
@@ -31,13 +24,7 @@ public class RefactorEnemy : MonoBehaviour
     [System.Serializable]
     public struct Stats
     {
-        [Header("Enemy Settings")]
-        [Tooltip("How fast the enemy walks (only when idle is true).")]
-        public float walkSpeed;
-
-        [Tooltip("How fast the enemy turns in circles as they're walking (only when idle is true).")]
-        public float rotateSpeed;
-
+        
         [Tooltip("How fast the enemy runs after the player (only when idle is false).")]
         public float chaseSpeed;
 
@@ -46,49 +33,41 @@ public class RefactorEnemy : MonoBehaviour
 
         [Tooltip("How close the enemy needs to be to explode")]
         public float explodeDist;
+        
+        public float walkSpeed;
 
     }
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        patrolScript = GetComponent<patrol>();
     }
     private void Update()
     {
         // changes the enemy's behavior: pacing in circles or chasing the player
         if (enemyStats.idle == true)
         {
-            //Patrol Logic
-                Vector3 moveToPoint = patrolPoints[currentPatrolPoint].position;
-                transform.position = Vector3.MoveTowards(transform.position, moveToPoint, enemyStats.walkSpeed * Time.deltaTime);
-
-                if (Vector3.Distance(transform.position, moveToPoint) < 0.01f)
-                {
-                    currentPatrolPoint++;
-                    if (currentPatrolPoint > patrolPoints.Length - 1)
-                    {
-                        currentPatrolPoint = 0;
-                    }
-                }
+            patrolScript.Patrol(enemyStats.walkSpeed);
         }
-        else if (enemyStats.idle == false)
+        else
         {
-            //Chase the player
-             sight.position = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z);
-             transform.LookAt(sight);
-             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, Time.deltaTime * enemyStats.chaseSpeed);
-           
-            //Explode if we get within the enemyStats.explodeDist
-            if (Vector3.Distance(transform.position, player.transform.position) < enemyStats.explodeDist)
-            {
-                StartCoroutine("Explode");
-                enemyStats.idle = true;
-            }
+            ChasePlayer(player.transform);
         }
-
         // stops enemy from following player up the inaccessible slopes
         if (slipping == true)
         {
             transform.Translate(Vector3.back * 20 * Time.deltaTime, Space.World);
+        }
+    }
+
+    private void ChasePlayer(Transform toChase)
+    {
+        sight.position = new Vector3(toChase.transform.position.x, transform.position.y, toChase.transform.position.z);
+        transform.LookAt(sight);
+        transform.position = Vector3.MoveTowards(transform.position, toChase.transform.position, Time.deltaTime * enemyStats.chaseSpeed);
+        if (Vector3.Distance(transform.position, toChase.transform.position) < enemyStats.explodeDist)
+        {
+            StartCoroutine("Explode");
+            enemyStats.idle = true;
         }
     }
     private void OnCollisionEnter(Collision other)
@@ -102,8 +81,6 @@ public class RefactorEnemy : MonoBehaviour
             slipping = false;
         }
     }
-
-
    private void OnTriggerEnter(Collider other)
     {
         //start chasing if the player gets close enough
